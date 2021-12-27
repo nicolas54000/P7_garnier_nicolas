@@ -8,14 +8,11 @@ const jwt = require('jsonwebtoken');
 
 
 exports.allUsers = (req, res, next) => {
-    const userObject = new User();
+     const userObject = new User();
     userObject.allUsers().then((response) => {
-        res.status(200).json({
-            firstname: response[0].firstname,
-            lastname: response[0].lastname,
-            email: response[0].email
-        })
-    }).catch(error => res.status(500).json({ error }));
+        res.status(200).json(response)
+    }).catch(error => res.status(500).json({ error }
+    ));
 };
 
 
@@ -45,20 +42,26 @@ exports.signUp = (req, res, next) => {
       }).catch(error => res.status(500).json({ error }));
 };
 
-exports.logIn = (req, res, next) => {
+
+ exports.logIn = (req, res, next) => {
     const userObject = new User(req.body);
     userObject.findOne().then((response) => {
+
+
         if(response.length != 1) {
-            return res.status(401).json({ error: "Nom d'utilisateur incorrect."})
+            return res.status(401).json({ error: "Ce mail n'existe pas "})
         }
         if(response[0].isActive == 0){
-            return res.status(401).json({ error: 'Compte supprimé. Contacter le service informatique'})
+            return res.status(401).json({ error: 'Compte desctivé'})
         }
         bcrypt.compare(req.body.password, response[0].password)
         .then(valid => {
             if (!valid) {
                 return res.status(401).json({ error: 'Mot de passe incorrect.'});
             }
+
+
+
             res.status(200).json({
                 userId: response[0].userId,
                 firstname: response[0].firstname,
@@ -72,20 +75,40 @@ exports.logIn = (req, res, next) => {
                     { expiresIn: '3h' }
                   )
             });
-        }).catch(error => res.status(500).json({ error }));
+
+
+        })
+         //  mise a jour date de connexion *****
+         userObject.updateUserLog(response[0].userId)
+
+
+        .catch(error => res.status(500).json({ error }));
     }).catch(error => res.status(500).json({ error }));
 };
 
-exports.findOne = (req, res, next) => {
+
+// utilisateur par nom
+
+exports.findOneByEmail = (req, res, next) => {
     const userObject = new User();
-    userObject.findOneById(req.params.id).then((response) => {
-        res.status(200).json({
-            firstname: response[0].firstname,
-            lastname: response[0].lastname,
-            email: response[0].email
-        })
+    userObject.findOneByEmail(req.params.email).then((response) => {
+        res.status(200).json(response)
+
     }).catch(error => res.status(500).json({ error }));
 };
+
+// utilisateur par id
+
+exports.findOneById = (req, res, next) => {
+    const userObject = new User();
+    userObject.findOneById(req.params.id).then((response) => {
+        res.status(200).json(response)
+
+    }).catch(error => res.status(500).json({ error }));
+};
+
+
+
 
 exports.updateUser = (req, res, next) => {
     if(req.body.password){

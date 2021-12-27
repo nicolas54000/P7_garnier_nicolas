@@ -16,7 +16,7 @@ const sanitizeReqBody = sanitizer();
 // Configuration du fichier contenant les variables sensibles pour les accès et ainsi les cacher du code
 require('dotenv').config();
 
-//const articlesRoutes = require('./routes/article');
+const articlesRoutes = require('./routes/article');
 const usersRoutes = require('./routes/users');
 //const commentsRoutes = require('./routes/comments');
 
@@ -39,7 +39,7 @@ app.use(helmet());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Routes
-//app.use('/api/articles', articlesRoutes);
+app.use('/api/articles', articlesRoutes);
 
 //app.use('/api/comments', commentsRoutes);
 

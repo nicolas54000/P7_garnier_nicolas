@@ -15,22 +15,27 @@ const apiLimiter = rateLimit({
 // Importation du middleware qui permet de vérifier si le mot de passe entré pour un enregistrement d'utilisateur est assez fort
 const passwordCtrl = require('../middleware/password-validator');
 
-router.post('/signup', apiLimiter, passwordCtrl, usersCtrl.signUp);
+//router.post('/signup', passwordCtrl, usersCtrl.signUp);
+router.post('/signup', usersCtrl.signUp);
 
-router.post('/login', apiLimiter, usersCtrl.logIn);
+router.post('/login',  usersCtrl.logIn);
 
-router.delete('/:id', auth, usersCtrl.desactivateUser);
+//router.delete('/:id', auth, usersCtrl.desactivateUser);
+router.delete('/:id', usersCtrl.desactivateUser);
 
 router.put('/:id', auth, usersCtrl.updateUser);
 
-router.put('/log/:id', usersCtrl.updateUserLog);
 
-//router.get('/:id', auth, usersCtrl.findOne);
+//router.get('/:id', auth, usersCtrl.findOneById);
 
-// *********  ng ***********
+// *********  ***********
 
 router.get('/', usersCtrl.allUsers);
 
-router.get('/:id', usersCtrl.findOne);
+router.get('/:id', usersCtrl.findOneById);
+
+// recherche par mail
+router.get('/email/:email', usersCtrl.findOneByEmail);
+
 
 module.exports = router;

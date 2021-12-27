@@ -1,6 +1,6 @@
 
 //const { response } = require('express');
-const db = require('../services/connexionSQL')
+const db = require('../services/db')
 const mysql = require('mysql');
 
 class User {
@@ -12,6 +12,7 @@ class User {
         firstname = '';
         isActive = 1;
         lastLog = 0;
+        fk_roles = 1;
 
         constructor(data = null) {
             if(data != null) {
@@ -20,26 +21,31 @@ class User {
                 if(data.lastname) this.lastname = data.lastname;
                 if(data.firstname) this.firstname = data.firstname;
                 if(data.lastLog) this.lastLog = data.lastLog;
+                if(data.fk_roles) this.fk_roles = data.fk_roles;
             }
         };
 
         addUser() {
             let params = [this.email, this.password, this.lastname, this.firstname, this.lastLog]
-            let sqlQuery = 'INSERT INTO users (userId, email, password, dateOfCreation, lastname, firstname, isActive, lastLog) '+
-            'VALUES (NULL, ??, ??, NOW(), ??, ??, 1, ?)';
+            let sqlQuery = 'INSERT INTO users (userId, email, password, dateOfCreation, lastname, firstname, isActive, lastLog, fk_roles) '+
+            'VALUES (NULL, ??, ??, NOW(), ??, ??, 1, NOW(), 1)';
             sqlQuery = db.preparer(mysql, sqlQuery, params)
             return db.executeSql(sqlQuery);
         }
-// ***********
-        allUsers() {
 
+        allUsers() {
             let sqlQuery = 'SELECT * FROM users';
-            sqlQuery = db.preparer(mysql, sqlQuery)
             return db.executeSql(sqlQuery);
         }
 
 
+        findOneById(userId) {
 
+            let params = [userId];
+            let sqlQuery = 'SELECT * FROM users WHERE userId = ?? ';
+            sqlQuery = db.preparer(mysql, sqlQuery, params)
+            return db.executeSql(sqlQuery);
+        }
 
         findOne() {
             let params = [this.email]
@@ -47,9 +53,12 @@ class User {
             sqlQuery = db.preparer(mysql, sqlQuery, params)
             return db.executeSql(sqlQuery);
         }
-        findOneById(userId) {
-            let params = [userId]
-            let sqlQuery = 'SELECT * FROM users WHERE userId = ?? ';
+
+
+
+        findOneByEmail(email) {
+            let params = [email]
+            let sqlQuery = 'SELECT * FROM users WHERE email = ?? ';
             sqlQuery = db.preparer(mysql, sqlQuery, params)
             return db.executeSql(sqlQuery);
         }
@@ -66,9 +75,10 @@ class User {
             return db.executeSql(sqlQuery);
         }
         updateUserLog(userId) {
-            let params = [this.lastLog, userId]
-            let sqlQuery = 'UPDATE Users SET lastLog=?? WHERE userId = ?';
+            let params = [userId]
+            let sqlQuery = 'UPDATE Users SET lastLog=now() WHERE userId =  ?';
             sqlQuery = db.preparer(mysql, sqlQuery, params)
+            console.log( sqlQuery);
             return db.executeSql(sqlQuery);
         }
         desactivateUser(userId) {
