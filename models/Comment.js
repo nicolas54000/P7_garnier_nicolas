@@ -1,3 +1,5 @@
+
+
 const db = require('../services/db')
 const mysql = require('mysql');
 
@@ -31,6 +33,7 @@ class Comment {
             AS firstname, users.lastname AS lastname FROM Comments
             INNER JOIN Users ON comments.userId = users.userId WHERE comments.idArticle = ??
             ORDER BY dateOfModification DESC LIMIT ?`;
+            // console.log(sqlQuery)
             sqlQuery = db.preparer(mysql, sqlQuery, params)
             return db.executeSql(sqlQuery);
         };

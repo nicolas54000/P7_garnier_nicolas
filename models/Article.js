@@ -4,37 +4,30 @@ const mysql = require('mysql');
 class Article {
         idArticle = null;
         title = '';
-        content = '';
-        imageUrl = '';
-        isGif = null;
         userId = null;
         dateOfCreation = null;
         dateOfModification = null;
-        likes = 0;
-        dislikes = 0;
+        theme = 1
 
         constructor(data = null) {
             if(data != null) {
                 if(data.title) this.title = data.title;
-                if(data.content) this.content = data.content;
-                if(data.imageUrl) this.imageUrl = data.imageUrl;
-                if(data.isGif) this.isGif = data.isGif;
                 if(data.userId) this.userId = data.userId;
+                if(data.theme) this.theme = data.theme;
             }
         };
 
         addArticle() {
-            let params = [this.title, this.content, this.imageUrl, this.isGif, this.userId, this.likes, this.dislikes];
-            let sqlQuery = 'INSERT INTO Articles (idArticle, title, content, imageUrl, isGif, userId, dateOfCreation, dateOfModification, likes, dislikes)' +
-            ' VALUES (NULL, ??, ??, ??, ?, ?, NOW(), NOW(), ?, ?)';
+            let params = [this.title, this.userId, this.theme];
+            let sqlQuery = 'INSERT INTO Articles (idArticle, title, userId, dateOfCreation, dateOfModification, fk_theme)' +
+            ' VALUES (NULL, ??, ?, NOW(), NOW(), ?)';
             sqlQuery = db.preparer(mysql, sqlQuery, params)
             return db.executeSql(sqlQuery)
 
         };
         getAllArticle(nbOfArticle) {
             let params = [nbOfArticle]
-            let sqlQuery = `SELECT articles.idArticle, articles.title, articles.content,
-            articles.imageUrl, articles.isGif, articles.dateOfModification, users.userId, users.firstname
+            let sqlQuery = `SELECT articles.idArticle, articles.title, articles.dateOfModification, users.userId, users.firstname
             AS firstname, users.lastname AS lastname FROM Articles
             INNER JOIN Users ON articles.userId = users.userId
             ORDER BY dateOfModification DESC LIMIT ?`;
@@ -43,8 +36,7 @@ class Article {
         };
         getOneArticle(id) {
             let params = [id]
-            let sqlQuery = `SELECT articles.idArticle, articles.title, articles.content,
-            articles.imageUrl, articles.isGif, articles.dateOfModification, users.userId, users.firstname
+            let sqlQuery = `SELECT articles.idArticle, articles.title, articles.dateOfModification, users.userId, users.firstname
             AS firstname, users.lastname AS lastname FROM Articles
             INNER JOIN Users ON articles.userId = users.userId
             WHERE idArticle = ?
@@ -53,8 +45,8 @@ class Article {
             return db.executeSql(sqlQuery);
         };
         updateArticle(id) {
-            let params = [this.title, this.content, this.imageUrl, this.isGif, this.userId, id];
-            let sqlQuery = `UPDATE Articles SET title = ??, imageUrl = ??, content = ??,dateOfModification=NOW() WHERE idArticle = ?`;
+            let params = [this.title, id];
+            let sqlQuery = `UPDATE Articles SET title = ??, dateOfModification=NOW() WHERE idArticle = ?`;
             sqlQuery = db.preparer(mysql, sqlQuery, params)
             return db.executeSql(sqlQuery);
         };

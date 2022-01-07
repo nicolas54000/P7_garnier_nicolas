@@ -47,12 +47,14 @@ exports.signUp = (req, res, next) => {
     const userObject = new User(req.body);
     userObject.findOne().then((response) => {
 
+        console.log(response);
+
 
         if(response.length != 1) {
             return res.status(401).json({ error: "Ce mail n'existe pas "})
         }
         if(response[0].isActive == 0){
-            return res.status(401).json({ error: 'Compte desctivé'})
+            return res.status(401).json({ error: 'Compte désactivé'})
         }
         bcrypt.compare(req.body.password, response[0].password)
         .then(valid => {
@@ -60,13 +62,20 @@ exports.signUp = (req, res, next) => {
                 return res.status(401).json({ error: 'Mot de passe incorrect.'});
             }
 
-
-
             res.status(200).json({
                 userId: response[0].userId,
                 firstname: response[0].firstname,
                 lastname: response[0].lastname,
                 lastLog: response[0].lastLog,
+                dateOfCreation: response[0].dateOfCreation,
+                isActive: response[0].isActive,
+                fk_roles: response[0].fk_roles,
+                password: response[0].password,
+
+
+
+
+
                 token: jwt.sign(
                     {
                         userId: response[0].userId,
@@ -75,8 +84,6 @@ exports.signUp = (req, res, next) => {
                     { expiresIn: '3h' }
                   )
             });
-
-
         })
          //  mise a jour date de connexion *****
          userObject.updateUserLog(response[0].userId)
@@ -106,8 +113,6 @@ exports.findOneById = (req, res, next) => {
 
     }).catch(error => res.status(500).json({ error }));
 };
-
-
 
 
 exports.updateUser = (req, res, next) => {

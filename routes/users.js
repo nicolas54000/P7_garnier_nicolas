@@ -18,6 +18,8 @@ const passwordCtrl = require('../middleware/password-validator');
 //router.post('/signup', passwordCtrl, usersCtrl.signUp);
 router.post('/signup', usersCtrl.signUp);
 
+
+
 router.post('/login',  usersCtrl.logIn);
 
 //router.delete('/:id', auth, usersCtrl.desactivateUser);

@@ -1,5 +1,5 @@
 
-//const { response } = require('express');
+
 const db = require('../services/db')
 const mysql = require('mysql');
 
@@ -25,6 +25,8 @@ class User {
             }
         };
 
+        //  ajout user
+
         addUser() {
             let params = [this.email, this.password, this.lastname, this.firstname, this.lastLog]
             let sqlQuery = 'INSERT INTO users (userId, email, password, dateOfCreation, lastname, firstname, isActive, lastLog, fk_roles) '+
@@ -38,6 +40,7 @@ class User {
             return db.executeSql(sqlQuery);
         }
 
+        // recherche par id
 
         findOneById(userId) {
 
@@ -49,6 +52,7 @@ class User {
 
         findOne() {
             let params = [this.email]
+
             let sqlQuery = 'SELECT * FROM users WHERE email = ?? ';
             sqlQuery = db.preparer(mysql, sqlQuery, params)
             return db.executeSql(sqlQuery);
