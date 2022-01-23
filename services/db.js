@@ -20,9 +20,9 @@ db.connect(function(err) {
 exports.db;
 
 // Configuration d'une promesse pour les requêtes SQL
-exports.executeSql = (sql) => {
+exports.executeSql = (sql, toBind = []) => {
     return new Promise((resolve, reject) => {
-        db.query(sql, (error, data) => {
+        db.query(sql, toBind, (error, data) => {
             if(error) reject(error);
             resolve(data);
         });
@@ -37,5 +37,6 @@ exports.preparer = function(mysql, sqlQuery, params) {
     sqlQuery = mysql.format(sqlQuery, params)
    .replace(/`/g, "'")
    .replace(/'\.'/g, ".")
+   console.log("xxxx", sqlQuery)
     return sqlQuery
 }

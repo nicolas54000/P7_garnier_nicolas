@@ -67,8 +67,8 @@ class User {
             return db.executeSql(sqlQuery);
         }
         updateUser(userId) {
-            let params = [this.firstname, this.lastname, this.email, userId]
-            let sqlQuery = 'UPDATE Users SET firstname=??, lastname=??, email=?? WHERE userId = ?';
+            let params = [this.firstname, this.lastname, userId]
+            let sqlQuery = 'UPDATE Users SET firstname=??, lastname=??  WHERE userId = ?';
             sqlQuery = db.preparer(mysql, sqlQuery, params)
             return db.executeSql(sqlQuery);
         }

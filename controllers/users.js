@@ -61,7 +61,7 @@ exports.signUp = (req, res, next) => {
             if (!valid) {
                 return res.status(401).json({ error: 'Mot de passe incorrect.'});
             }
-
+            console.log("res", response),
             res.status(200).json({
                 userId: response[0].userId,
                 firstname: response[0].firstname,
@@ -69,10 +69,8 @@ exports.signUp = (req, res, next) => {
                 lastLog: response[0].lastLog,
                 dateOfCreation: response[0].dateOfCreation,
                 isActive: response[0].isActive,
-                fk_roles: response[0].fk_roles,
-                password: response[0].password,
-
-
+                isAdmin: response[0].isAdmin,
+                email: response[0].email,
 
 
 
@@ -115,7 +113,7 @@ exports.findOneById = (req, res, next) => {
 };
 
 
-exports.updateUser = (req, res, next) => {
+/* exports.updateUser = (req, res, next) => {
     if(req.body.password){
         bcrypt.hash(req.body.password, 10).then( hash => {
             const userObject = new User({
@@ -136,7 +134,24 @@ exports.updateUser = (req, res, next) => {
             res.status(200).json({ message: 'Utilisateur modifié !'});
         }).catch(error => res.status(400).json({ error }));
     }
+}; */
+
+exports.updateUser = (req, res, next) => {
+
+        const userObject = new User({
+            lastname: req.body.lastname,
+            firstname: req.body.firstname
+        });
+        console.log(userObject)
+        console.log(req.params.id)
+
+
+        userObject.updateUser(req.params.id).then((response) => {
+            res.status(200).json({ message: 'Utilisateur modifié !'});
+        }).catch(error => res.status(400).json({ error }));
+
 };
+
 
 exports.updateUserLog = (req, res, next) => {
     const userObject = new User({

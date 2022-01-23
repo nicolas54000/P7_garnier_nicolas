@@ -28,8 +28,8 @@ router.delete('/:id',  articlesCtrl.deleteOneArticle);
 // recherche d'un article par id
 router.get('/:id',  articlesCtrl.getOneArticle);
 
-// tous les articles
-router.get('/',  articlesCtrl.getAllArticle);
+// tous les articles n derniers
+router.get('/all/:id',  articlesCtrl.getAllArticle);
 
 
 

@@ -2,11 +2,9 @@ const Article = require('../models/Article');
 const fs = require('fs');
 
 exports.getAllArticle = (req, res, next) => {
-    // console.log(req.body.nbOfArticles);
-    const nbOfArticles = parseInt(req.body.nbOfArticles);
 
     const articleObject = new Article();
-    articleObject.getAllArticle(nbOfArticles).then(articles => {
+        articleObject.getAllArticle(req.params.id).then(articles => {
         res.status(200).json(articles)
     }).catch(error => res.status(400).json({ error }));
 };
@@ -46,5 +44,13 @@ exports.updateArticle = (req, res, next) => {
     });
     articleObject.updateArticle(req.params.id).then((article) => {
         res.status(200).json(article);
+    }).catch(error => res.status(400).json({ error }));
+};
+
+exports.getThemes = (req, res, next) => {
+
+    const articleObject = new Article();
+        articleObject.getThemes().then(articles => {
+        res.status(200).json(articles)
     }).catch(error => res.status(400).json({ error }));
 };

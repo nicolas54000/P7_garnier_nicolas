@@ -18,7 +18,8 @@ require('dotenv').config();
 
 const articlesRoutes = require('./routes/article');
 const usersRoutes = require('./routes/users');
-//const commentsRoutes = require('./routes/comments');
+const commentsRoutes = require('./routes/comments');
+const themesRoutes = require('./routes/themes');
 
 
 app.use((req, res, next) => {
@@ -43,9 +44,10 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // Routes
 app.use('/api/articles', articlesRoutes);
 
-//app.use('/api/comments', commentsRoutes);
+app.use('/api/comments', commentsRoutes);
 
 app.use('/api/users', usersRoutes);
 
+app.use('/api/themes', themesRoutes);
 
 module.exports = app;
