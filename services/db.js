@@ -30,13 +30,3 @@ exports.executeSql = (sql, toBind = []) => {
 };
 
 
-//  mise en forme de la requete
-// ajout parametres
-
-exports.preparer = function(mysql, sqlQuery, params) {
-    sqlQuery = mysql.format(sqlQuery, params)
-   .replace(/`/g, "'")
-   .replace(/'\.'/g, ".")
-   console.log("xxxx", sqlQuery)
-    return sqlQuery
-}

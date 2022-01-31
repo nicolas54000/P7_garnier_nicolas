@@ -16,6 +16,12 @@ exports.getIdComments = (req, res, next) => {
     }).catch(error => res.status(400).json({ error }));
 };
 
+exports.IdComments = (req, res, next) => {
+    const commentObject = new Comment();
+    commentObject.IdComments(req.params.id).then(comments => {
+        res.status(200).json(comments)
+    }).catch(error => res.status(400).json({ error }));
+};
 
 exports.addComment = (req, res, next) => {
     const commentObject = new Comment({
@@ -32,7 +38,7 @@ exports.updateComment = (req, res, next) => {
     const commentObject = new Comment({
         content: req.body.content
     });
-    commentObject.updateComment().then((comment) => {
+    commentObject.updateComment(req.params.id).then((comment) => {
         res.status(200).json(comment);
     }).catch(error => res.status(400).json({ error }));
 };

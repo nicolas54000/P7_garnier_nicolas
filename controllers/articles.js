@@ -47,10 +47,23 @@ exports.updateArticle = (req, res, next) => {
     }).catch(error => res.status(400).json({ error }));
 };
 
-exports.getThemes = (req, res, next) => {
+exports.Articletheme = (req, res, next) => {
+    const articleObject = new Article({
+        title: req.body.title,
 
-    const articleObject = new Article();
-        articleObject.getThemes().then(articles => {
-        res.status(200).json(articles)
+    });
+    articleObject.Articletheme(req.params.id).then((article) => {
+        res.status(200).json(article);
     }).catch(error => res.status(400).json({ error }));
 };
+
+
+
+
+// exports.getThemes = (req, res, next) => {
+
+//     const articleObject = new Article();
+//         articleObject.getThemes().then(articles => {
+//         res.status(200).json(articles)
+//     }).catch(error => res.status(400).json({ error }));
+// };

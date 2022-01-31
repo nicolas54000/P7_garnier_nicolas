@@ -22,8 +22,11 @@ router.delete('/:id', commentsCtrl.deleteOneComment);
 
 router.get('/', commentsCtrl.getAllComments);
 
-// tous les commantaires d'un article (id article)
+// tous les commentaires d'un article (id article)
 router.get('/:id', commentsCtrl.getIdComments);
+
+//  recharcge un commentaire par son id
+router.get('/un/:id', commentsCtrl.IdComments);
 
 
 module.exports = router;
