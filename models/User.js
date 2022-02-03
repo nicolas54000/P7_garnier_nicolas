@@ -44,7 +44,7 @@ class User {
         findOneById(userId) {
 
             let params = [userId];
-            let sqlQuery = 'SELECT * FROM users WHERE userId = ?? ';
+            let sqlQuery = 'SELECT * FROM users WHERE userId = ? ';
             return db.executeSql(sqlQuery, params);
         }
 
@@ -54,8 +54,6 @@ class User {
             let sqlQuery = 'SELECT * FROM users WHERE email = ? ';
             return db.executeSql(sqlQuery, params);
         }
-
-
 
         findOneByEmail(email) {
             let params = [email]

@@ -17,7 +17,7 @@ router.get('/:id', auth, articlesCtrl.getOneArticle);
 router.get('/', auth, articlesCtrl.getAllArticle); */
 
 //  ajout d'un article
-router.post('/',  multer, articlesCtrl.addArticle);
+router.post('/', articlesCtrl.addArticle);
 
 //  mise a jour article
 router.put('/:id',  multer, articlesCtrl.updateArticle);

@@ -54,7 +54,7 @@ class Comment {
             JOIN users ON users.userId = comments.userId
             JOIN themes t ON c.fk_Theme = t.idThemes
             where c.idArticle = ?
-            ORDER BY Comments.dateOfModification
+            ORDER BY Comments.dateOfCreation
             LIMIT ?
             `  ;
             // sqlQuery = db.preparer(mysql, sqlQuery, params)

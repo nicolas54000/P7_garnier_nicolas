@@ -18,10 +18,20 @@ class Article {
             }
         };
 
+        // addArticle() {
+        //     let params = [this.title, this.userId, this.theme];
+        //     let sqlQuery = 'INSERT INTO Articles (idArticle, title, userId, dateOfCreation, dateOfModification, fk_theme)' +
+        //     ' VALUES (NULL, ?, ?, NOW(), NOW(), ?)';
+        //     return db.executeSql(sqlQuery, params);
+
+        // };
+
         addArticle() {
-            let params = [this.title, this.userId, this.theme];
-            let sqlQuery = 'INSERT INTO Articles (idArticle, title, userId, dateOfCreation, dateOfModification, fk_theme)' +
-            ' VALUES (NULL, ?, ?, NOW(), NOW(), ?)';
+            let params = [this.userId, this.title, this.theme, this.userId, this.title];
+            let sqlQuery =
+            `INSERT INTO articles (userId, title, fk_Theme, dateOfModificationA, dateOfCreationA) VALUES (?, ?, ?, NOW(), NOW());` +
+            ` INSERT INTO comments (userId, idArticle, content, dateOfModification, dateOfCreation, fk_idtype) VALUES (?, LAST_INSERT_ID(), ?, NOW(), NOW(), 1);`;
+
             return db.executeSql(sqlQuery, params);
 
         };
@@ -43,11 +53,11 @@ class Article {
         };
         getOneArticle(id) {
             let params = [id]
-            let sqlQuery = `SELECT articles.idArticle, articles.title, articles.dateOfModification, users.userId, users.firstname
+            let sqlQuery = `SELECT articles.idArticle, articles.title, articles.dateOfModificationA, users.userId, users.firstname
             AS firstname, users.lastname AS lastname FROM Articles
             INNER JOIN Users ON articles.userId = users.userId
             WHERE idArticle = ?
-            ORDER BY dateOfModification DESC`;
+            ORDER BY dateOfModificationA DESC`;
             return db.executeSql(sqlQuery, params);
         };
         updateArticle(id) {
