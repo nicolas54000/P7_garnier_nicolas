@@ -29,6 +29,7 @@ exports.deleteOneArticle = (req, res, next) => {
 exports.addArticle = (req, res, next) => {
     const articleObject = new Article({
         title: req.body.title,
+        commentaire: req.body.commentaire,
         userId: req.body.userId,
         theme: req.body.theme,
     });

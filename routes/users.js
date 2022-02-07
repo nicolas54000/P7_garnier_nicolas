@@ -15,19 +15,15 @@ const apiLimiter = rateLimit({
 // Importation du middleware qui permet de vérifier si le mot de passe entré pour un enregistrement d'utilisateur est assez fort
 const passwordCtrl = require('../middleware/password-validator');
 
-//router.post('/signup', passwordCtrl, usersCtrl.signUp);
-router.post('/signup', usersCtrl.signUp);
-
+router.post('/signup', passwordCtrl, usersCtrl.signUp);
 
 
 router.post('/login',  usersCtrl.logIn);
 
-//router.delete('/:id', auth, usersCtrl.desactivateUser);
-router.delete('/:id', usersCtrl.desactivateUser);
+router.delete('/:id', auth, usersCtrl.desactivateUser);
 
 
 router.put('/:id', usersCtrl.updateUser);
-//router.put('/:id', usersCtrl.updateUser);
 
 
 //router.get('/:id', auth, usersCtrl.findOneById);

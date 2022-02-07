@@ -12,9 +12,7 @@ router.put('/:id', auth, multer, articlesCtrl.updateArticle);
 
 router.delete('/:id', auth, articlesCtrl.deleteOneArticle);
 
-router.get('/:id', auth, articlesCtrl.getOneArticle);
-
-router.get('/', auth, articlesCtrl.getAllArticle); */
+router.get('/:id', auth, articlesCtrl.getOneArticle); */
 
 //  ajout d'un article
 router.post('/', articlesCtrl.addArticle);
@@ -29,7 +27,7 @@ router.delete('/:id',  articlesCtrl.deleteOneArticle);
 router.get('/:id',  articlesCtrl.getOneArticle);
 
 // tous les articles n derniers
-router.get('/all/:id', articlesCtrl.getAllArticle);
+router.get('/all/:id', auth, articlesCtrl.getAllArticle);
 
 // tous les articles par themes
 router.get('/theme/:id',  articlesCtrl.Articletheme);

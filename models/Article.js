@@ -8,6 +8,7 @@ class Article {
         dateOfCreationA = null;
         dateOfModificationA = null;
         theme = 1;
+        commentaire = "";
 
 
         constructor(data = null) {
@@ -15,6 +16,7 @@ class Article {
                 if(data.title) this.title = data.title;
                 if(data.userId) this.userId = data.userId;
                 if(data.theme) this.theme = data.theme;
+                if(data.commentaire) this.commentaire = data.commentaire;
             }
         };
 
@@ -27,7 +29,7 @@ class Article {
         // };
 
         addArticle() {
-            let params = [this.userId, this.title, this.theme, this.userId, this.title];
+            let params = [this.userId, this.title, this.theme, this.userId, this.commentaire];
             let sqlQuery =
             `INSERT INTO articles (userId, title, fk_Theme, dateOfModificationA, dateOfCreationA) VALUES (?, ?, ?, NOW(), NOW());` +
             ` INSERT INTO comments (userId, idArticle, content, dateOfModification, dateOfCreation, fk_idtype) VALUES (?, LAST_INSERT_ID(), ?, NOW(), NOW(), 1);`;
