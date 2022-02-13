@@ -10,6 +10,9 @@ class Article {
         theme = 1;
         commentaire = "";
 
+        nbrligne = null;
+        noligne = null;
+
 
         constructor(data = null) {
             if(data != null) {
@@ -17,16 +20,14 @@ class Article {
                 if(data.userId) this.userId = data.userId;
                 if(data.theme) this.theme = data.theme;
                 if(data.commentaire) this.commentaire = data.commentaire;
+                if(data.noligne) this.noligne = data.noligne;
+                if(data.nbrligne) this.nbrligne = data.nbrligne;
+                if(data.idtheme) this.idtheme = data.idtheme;
+
             }
         };
 
-        // addArticle() {
-        //     let params = [this.title, this.userId, this.theme];
-        //     let sqlQuery = 'INSERT INTO Articles (idArticle, title, userId, dateOfCreation, dateOfModification, fk_theme)' +
-        //     ' VALUES (NULL, ?, ?, NOW(), NOW(), ?)';
-        //     return db.executeSql(sqlQuery, params);
 
-        // };
 
         addArticle() {
             let params = [this.userId, this.title, this.theme, this.userId, this.commentaire];
@@ -39,8 +40,9 @@ class Article {
         };
 
         // id = nombre de lignes
-        getAllArticle(id) {
-            let params =  [id];
+        getAllArticle() {
+            if(this.noligne == null) this.noligne=0;
+            let params =  [this.noligne ,this.nbrligne];
             let sqlQuery =
             `WITH toto AS (
                 SELECT content, idArticle,commentId, MIN(dateOfCreation) dateOfCreation FROM comments
@@ -50,10 +52,12 @@ class Article {
                 JOIN toto c ON a.idArticle = c.idArticle
                 JOIN users ON users.userId = a.userId
                 JOIN themes t ON a.fk_Theme = t.idThemes
-                ORDER BY dateOfModificationA DESC LIMIT 5`;
+                ORDER BY dateOfModificationA DESC LIMIT ? , ?`;
+                console.log("xxxxxxxxxx", sqlQuery, this.nbrligne);
             return db.executeSql(sqlQuery, params);
         };
         getOneArticle(id) {
+            console.log("on")
             let params = [id]
             let sqlQuery = `SELECT articles.idArticle, articles.title, articles.dateOfModificationA, users.userId, users.firstname
             AS firstname, users.lastname AS lastname FROM Articles
@@ -73,8 +77,11 @@ class Article {
             return db.executeSql(sqlQuery, params);
         };
 
-        Articletheme(id) {
-            let params = [id];
+
+        Articletheme() {
+            if(this.noligne == null) this.noligne=0;
+            let params =  [this.idtheme, this.noligne ,this.nbrligne];
+
             let sqlQuery = `WITH toto AS (
                 SELECT content, idArticle,commentId, MIN(dateOfCreation) dateOfCreation FROM comments
                 GROUP BY idArticle
@@ -84,10 +91,29 @@ class Article {
                 JOIN users ON users.userId = a.userId
                 JOIN themes t ON a.fk_Theme = t.idThemes
                 where a.fk_theme = ?
-                ORDER BY dateOfModificationA DESC LIMIT 5 `;
+                ORDER BY dateOfModificationA DESC LIMIT ? , ?`;
+                console.log("xxxxxxxxxx", sqlQuery);
 
             return db.executeSql(sqlQuery, params);
         };
+
+
+        // Articletheme(id) {
+        //     let params = [id];
+        //     let sqlQuery = `WITH toto AS (
+        //         SELECT content, idArticle,commentId, MIN(dateOfCreation) dateOfCreation FROM comments
+        //         GROUP BY idArticle
+        //         )
+        //         SELECT * FROM articles a
+        //         JOIN toto c ON a.idArticle = c.idArticle
+        //         JOIN users ON users.userId = a.userId
+        //         JOIN themes t ON a.fk_Theme = t.idThemes
+        //         where a.fk_theme = ?
+        //         ORDER BY dateOfModificationA DESC LIMIT 5 `;
+        //         console.log("xxxxxxxxxx", sqlQuery);
+
+        //     return db.executeSql(sqlQuery, params);
+        // };
 //
 }
 module.exports = Article;

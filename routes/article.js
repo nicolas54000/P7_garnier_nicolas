@@ -24,13 +24,14 @@ router.put('/:id',  multer, articlesCtrl.updateArticle);
 router.delete('/:id',  articlesCtrl.deleteOneArticle);
 
 // recherche d'un article par id
-router.get('/:id',  articlesCtrl.getOneArticle);
+//router.get('/:id',  articlesCtrl.getOneArticle);
 
-// tous les articles n derniers
-router.get('/all/:id', auth, articlesCtrl.getAllArticle);
+// tous les articles nbr = nombre de ligne  derniers ligne N eme ligne
+
+router.get("/all/:ligne/:nbr", articlesCtrl.getAllArticle);
 
 // tous les articles par themes
-router.get('/theme/:id',  articlesCtrl.Articletheme);
+router.get('/theme/:id/:ligne/:nbr', articlesCtrl.Articletheme);
 
 
 
