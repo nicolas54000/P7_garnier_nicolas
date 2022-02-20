@@ -53,7 +53,7 @@ class Article {
                 JOIN users ON users.userId = a.userId
                 JOIN themes t ON a.fk_Theme = t.idThemes
                 ORDER BY dateOfModificationA DESC LIMIT ? , ?`;
-                console.log("xxxxxxxxxx", sqlQuery, this.nbrligne);
+               // console.log("xxxxxxxxxx", sqlQuery, this.nbrligne);
             return db.executeSql(sqlQuery, params);
         };
         getOneArticle(id) {

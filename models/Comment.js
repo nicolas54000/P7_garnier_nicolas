@@ -18,6 +18,8 @@ class Comment {
                 if(data.content) this.content = data.content;
                 if(data.idArticle) this.idArticle = data.idArticle;
                 if(data.userId) this.userId = data.userId;
+                if(data.value) this.value = data.value;
+                if(data.commentId) this.commentId = data.commentId;
             }
         };
 
@@ -73,5 +75,24 @@ class Comment {
             let sqlQuery = `DELETE FROM Comments WHERE commentId = ?`;
             return db.executeSql(sqlQuery, params);
         };
+
+        addlike() {
+            let params = [this.userId, this.commentId, this.value]
+            let sqlQuery = `INSERT INTO liked (user, comment, likedislike) VALUES (?, ?, ?)`;
+            return db.executeSql(sqlQuery, params);
+        };
+
+        lirelike() {
+            let params = [this.userId, this.commentId]
+            let sqlQuery = `select *from liked where user = ? and comment = ? `;
+            return db.executeSql(sqlQuery, params);
+        };
+
+        modiflike() {
+            let params = [this.value, this.userId, this.commentId, ]
+            let sqlQuery = `update liked set likedislike = ? where user = ? and comment = ?`;
+            return db.executeSql(sqlQuery, params);
+        };
+
 }
 module.exports = Comment;

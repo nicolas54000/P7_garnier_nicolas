@@ -49,3 +49,42 @@ exports.deleteOneComment = (req, res, next) => {
         res.status(200).end();
     }).catch(error => res.status(400).json({ error }));
 };
+
+exports.addlike = (req, res, next) => {
+    const commentObject = new Comment(
+{
+    commentId: req.body.commentId,
+    userId: req.body.userId,
+    value: req.body.value
+}
+    );
+    commentObject.addlike(req.params.id).then(() => {
+        res.status(200).end();
+    }).catch(error => res.status(400).json({ error }));
+};
+
+exports.lirelike = (req, res, next) => {
+    const commentObject = new Comment(
+{
+
+    commentId: parseInt(req.params.commentId),
+    userId: parseInt(req.params.userId),
+}
+      );
+    commentObject.lirelike(req.params.id).then((like) => {
+        res.status(200).json(like);
+    }).catch(error => res.status(400).json({ error }));
+};
+
+exports.modiflike = (req, res, next) => {
+    const commentObject = new Comment(
+{
+    commentId: req.body.commentId,
+    userId: req.body.userId,
+    value: req.body.value
+}
+    );
+    commentObject.modiflike(req.params.id).then(() => {
+        res.status(200).end();
+    }).catch(error => res.status(400).json({ error }));
+};
