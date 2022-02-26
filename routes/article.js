@@ -6,25 +6,18 @@ const multer = require('../middleware/multer-config');
 
 const articlesCtrl = require('../controllers/articles');
 
-/* router.post('/', auth, multer, articlesCtrl.addArticle);
 
-router.put('/:id', auth, multer, articlesCtrl.updateArticle);
-
-router.delete('/:id', auth, articlesCtrl.deleteOneArticle);
-
-router.get('/:id', auth, articlesCtrl.getOneArticle); */
+// router.get('/:id', auth, articlesCtrl.getOneArticle);
 
 //  ajout d'un article
 router.post('/', articlesCtrl.addArticle);
 
 //  mise a jour article
-router.put('/:id',  multer, articlesCtrl.updateArticle);
+router.put('/:id',  auth, articlesCtrl.updateArticle);
 
 // suppression article
-router.delete('/:id',  articlesCtrl.deleteOneArticle);
+router.delete('/:id', auth ,articlesCtrl.deleteOneArticle);
 
-// recherche d'un article par id
-//router.get('/:id',  articlesCtrl.getOneArticle);
 
 // tous les articles nbr = nombre de ligne  derniers ligne N eme ligne
 

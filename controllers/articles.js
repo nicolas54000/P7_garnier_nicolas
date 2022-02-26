@@ -69,12 +69,3 @@ exports.Articletheme = (req, res, next) => {
 };
 
 
-
-
-// exports.getThemes = (req, res, next) => {
-
-//     const articleObject = new Article();
-//         articleObject.getThemes().then(articles => {
-//         res.status(200).json(articles)
-//     }).catch(error => res.status(400).json({ error }));
-// };
